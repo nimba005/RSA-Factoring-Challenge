@@ -1,20 +1,48 @@
+#!usr/bin/python3
+
 import sys
 import math
 
-# Open the file passed as a command line argument
-file = open(sys.argv[1], "r")
-
-# Iterate through each line in the file
-for num in file:
-    num = int(num)
-    for i in range(2, int(math.sqrt(num))+1):
+def factorize(num)
+    '''Takes a number as input.
+    Args:
+       num: input integer.
+       Return: A tuple of two factors if the number is not a prime.
+               None if the number is prime.
+    '''
+    for i in range(2, int(num**0.5)+1):
         if num % i == 0:
-            p = i
-            q = num // i
-            print(f"{num} = {p} * {q}")
-            break
-    else:
-       print(f"{num} = {num} * 1")
+            return (i, num//i)
+    return None
 
-#close the file
-file.close()
+if __name__ == "__main__":
+    
+
+    '''Reads the input file.
+    '''
+    if len(sys.argv) != 2:
+       print("Usage: factors <file>")
+       exit()
+    input_file = sys.argv[1]
+    try:
+       with open(input_file,  'r') as f:
+          lines = f.readlines()
+    except FileNotFoundError:
+        print("File not found")
+        exit()
+    start_time = time.time()
+
+    '''Loops over each line (which should contain one natural number per line, and calls factorize on each number.
+       If factorize return a tuple of factors, it prints the factorization in the desired form
+    '''
+    for line in lines:
+        num = int(line.strip())
+        factors = factorize(num)
+        if factors:
+           print(f"{num}={factors[0]}*{factors[1]}")
+
+        '''If the elapsed time exceeds 5 seconds, the problem exits with an error message.
+        '''
+        if time.time() - start_time > 5:
+            print("Time limit exceeded")
+            exit()
